@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoSpeed - Portal Berita Otomotif Indonesia</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0091ff 0%, #1900ff 50%, #00a2ff 100%);
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 98, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(0,0,0,0.1) 10px,
+                rgba(0,0,0,0.1) 20px
+            );
+        }
+
+        header h1 {
+            font-size: 3em;
+            color: white;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 1;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: #fff;
+            margin-top: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            background-color: #1a1a1a;
+            padding: 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            border-bottom: 3px solid #0091ff;
+        }
+
+        nav a {
+            color: #e0e0e0;
+            text-decoration: none;
+            padding: 18px 25px;
+            display: inline-block;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        nav a:hover {
+            background-color: #0091ff;
+            color: white;
+            border-bottom: 3px solid #00e1ff;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, #0091ff 0%, #00e1ff 100%);
+            padding: 80px 40px;
+            text-align: center;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 115, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner::after {
+            content: '🏎️';
+            position: absolute;
+            font-size: 200px;
+            opacity: 0.1;
+            right: -50px;
+            top: -50px;
+        }
+
+        .hero-banner h2 {
+            font-size: 2.5em;
+            color: white;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-banner p {
+            font-size: 1.3em;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .featured-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .featured-card {
+            background: linear-gradient(145deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid #333;
+        }
+
+        .featured-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 132, 255, 0.4);
+            border-color: #00e1ff;
+        }
+
+        .featured-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .featured-card-content {
+            padding: 25px;
+        }
+
+        .featured-card h3 {
+            color: #00e1ff;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+
+        .featured-card .category {
+            display: inline-block;
+            background-color: #00e1ff;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .search-box {
+            background: linear-gradient(145deg, #1a1a1a 0%, #2a2a2a 100%);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            margin: 30px 0;
+            border: 2px solid #333;
+        }
+
+        .search-box h2 {
+            color: #00e1ff;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .search-box input[type="text"] {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #00e1ff;
+            border-radius: 50px;
+            font-size: 16px;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            margin: 10px 0;
+        }
+
+        .search-box input[type="text"]:focus {
+            outline: none;
+            border-color: #00a2ff;
+            box-shadow: 0 0 15px rgba(0, 81, 255, 0.3);
+        }
+
+        .search-box input[type="submit"] {
+            background: linear-gradient(135deg, #0091ff 0%, #00e1ff 100%);
+            color: white;
+            padding: 15px 50px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .search-box input[type="submit"]:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 153, 255, 0.5);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .news-card {
+            background: linear-gradient(145deg, #1a1a1a 0%, #2a2a2a 100%);
+            border-radius: 12px;
+            padding: 25px;
+            border-left: 5px solid #0091ff;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .news-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(0, 157, 255, 0.3);
+        }
+
+        .news-card h3 {
+            color: #0091ff;
+            margin-bottom: 12px;
+            font-size: 1.3em;
+        }
+
+        .news-card .meta {
+            color: #888;
+            font-size: 0.85em;
+            margin-bottom: 12px;
+        }
+
+        .news-card p {
+            color: #b0b0b0;
+            margin-bottom: 15px;
+        }
+
+        .news-card a {
+            color: #00f2ff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .news-card a:hover {
+            color: #0091ff;
+        }
+
+        .gallery-section {
+            background: linear-gradient(145deg, #1a1a1a 0%, #2a2a2a 100%);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border: 2px solid #333;
+        }
+
+        .gallery-section h2 {
+            color: #0091ff;
+            margin-bottom: 30px;
+            font-size: 2em;
+            text-align: center;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border: 3px solid #0091ff;
+            border-radius: 10px;
+        }
+
+        .comment-section {
+            background: linear-gradient(145deg, #1a1a1a 0%, #2a2a2a 100%);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border: 2px solid #333;
+        }
+
+        .comment-section h2 {
+            color: #0091ff;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+
+        .comment-section label {
+            color: #e0e0e0;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .comment-section input,
+        .comment-section textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #0091ff;
+            border-radius: 8px;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .comment-section input:focus,
+        .comment-section textarea:focus {
+            outline: none;
+            border-color: #ffa500;
+            box-shadow: 0 0 15px rgba(255, 69, 0, 0.3);
+        }
+
+        .comment-section input[type="submit"] {
+            background: linear-gradient(135deg, #0091ff 0%, #00e1ff 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            width: auto;
+            padding: 15px 50px;
+        }
+
+        .comment-section input[type="submit"]:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 119, 255, 0.5);
+        }
+
+        footer {
+            background-color: #0a0a0a;
+            color: #888;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+            border-top: 3px solid #0091ff;
+        }
+
+        footer p {
+            font-size: 1em;
+        }
+
+        .section-title {
+            color: #0091ff;
+            font-size: 2.5em;
+            text-align: center;
+            margin: 40px 0 30px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>⚡ AUTOSPEED ⚡</h1>
+        <p>Portal Berita Otomotif Terlengkap di Indonesia</p>
+    </header>
+
+    <!-- Navigasi -->
+    <nav>
+        <a href="index.html">Beranda</a>
+        <a href="mobil.html">Mobil</a>
+        <a href="motor.html">Motor</a>
+        <a href="modifikasi.html">Modifikasi</a>
+        <a href="tips.html">Tips & Trik</a>
+        <a href="review.html">Review</a>
+        <a href="otosport.html">Otosport</a>
+        <a href="galeri.html">Galeri</a>
+        <a href="tentang.html">Tentang</a>
+    </nav>
+
+    <div class="container">
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+            <h2>Selamat Datang di AutoSpeed</h2>
+            <p>Informasi Terkini Seputar Dunia Otomotif Indonesia</p>
+        </div>
+
+        <!-- Featured News -->
+        <h2 class="section-title">🔥 Berita Pilihan</h2>
+        <div class="featured-section">
+            <div class="featured-card">
+                <img src="featured1.jpg" alt="Mobil Baru">
+                <div class="featured-card-content">
+                    <span class="category">Mobil Baru</span>
+                    <h3>Peluncuran SUV Listrik Terbaru di Indonesia</h3>
+                    <p>Brand ternama meluncurkan SUV listrik dengan jangkauan hingga 500 km per charge...</p>
+                    <a href="berita1.html">Baca Selengkapnya →</a>
+                </div>
+            </div>
+
+            <div class="featured-card">
+                <img src="featured2.jpg" alt="Motor Sport">
+                <div class="featured-card-content">
+                    <span class="category">Motor</span>
+                    <h3>Motor Sport 250cc Terlaris Tahun Ini</h3>
+                    <p>Daftar motor sport dengan performa terbaik yang menjadi favorit anak muda...</p>
+                    <a href="berita2.html">Baca Selengkapnya →</a>
+                </div>
+            </div>
+
+            <div class="featured-card">
+                <img src="featured3.jpg" alt="Modifikasi">
+                <div class="featured-card-content">
+                    <span class="category">Modifikasi</span>
+                    <h3>Tren Modifikasi JDM Kembali Populer</h3>
+                    <p>Gaya modifikasi Japanese Domestic Market kembali hits di kalangan modifikator...</p>
+                    <a href="berita3.html">Baca Selengkapnya →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Box -->
+        <div class="search-box">
+            <h2>🔍 Cari Berita Otomotif</h2>
+            <form action="cari.html" method="get">
+                <label for="keyword">Masukkan kata kunci:</label>
+                <input type="text" id="keyword" name="q" placeholder="Cari mobil, motor, atau berita otomotif...">
+                <input type="submit" value="Cari Sekarang">
+            </form>
+        </div>
+
+        <!-- News Grid -->
+        <h2 class="section-title">📰 Berita Terkini</h2>
+        <div class="news-grid">
+            <div class="news-card">
+                <h3>Harga BBM Naik, Penjualan Motor Listrik Meningkat</h3>
+                <p class="meta">8 November 2025 | Ekonomi Otomotif</p>
+                <p>Kenaikan harga BBM mendorong masyarakat beralih ke kendaraan listrik. Penjualan motor listrik naik 45% dalam sebulan terakhir...</p>
+                <a href="berita4.html">Baca Selengkapnya →</a>
+            </div>
+
+            <div class="news-card">
+                <h3>Tips Merawat Mesin Mobil Agar Awet dan Irit</h3>
+                <p class="meta">7 November 2025 | Tips & Trik</p>
+                <p>Cara mudah merawat mesin mobil agar tetap prima dan hemat bahan bakar. Simak tips dari mekanik profesional...</p>
+                <a href="berita5.html">Baca Selengkapnya →</a>
+            </div>
+
+            <div class="news-card">
+                <h3>Balapan MotoGP Indonesia 2026 Dikonfirmasi</h3>
+                <p class="meta">7 November 2025 | Otosport</p>
+                <p>Sirkuit Mandalika kembali menjadi tuan rumah MotoGP 2026. Persiapan infrastruktur sudah dimulai...</p>
+                <a href="berita6.html">Baca Selengkapnya →</a>
+            </div>
+
+            <div class="news-card">
+                <h3>Mobil Hybrid Semakin Diminati di Indonesia</h3>
+                <p class="meta">6 November 2025 | Tren Pasar</p>
+                <p>Teknologi hybrid menjadi pilihan utama konsumen yang ingin kendaraan ramah lingkungan namun tetap fleksibel...</p>
+                <a href="berita7.html">Baca Selengkapnya →</a>
+            </div>
+
+            <div class="news-card">
+                <h3>Komunitas Otomotif Gelar Festival Modifikasi</h3>
+                <p class="meta">6 November 2025 | Acara</p>
+                <p>Festival modifikasi terbesar tahun ini menampilkan ratusan mobil dan motor hasil karya modifikator Indonesia...</p>
+                <a href="berita8.html">Baca Selengkapnya →</a>
+            </div>
+
+            <div class="news-card">
+                <h3>Review Test Drive: Sedan Mewah Rp 1 Miliar</h3>
+                <p class="meta">5 November 2025 | Review</p>
+                <p>Kami mencoba sedan mewah dengan teknologi canggih dan performa luar biasa. Begini pengalaman berkendara kami...</p>
+                <a href="berita9.html">Baca Selengkapnya →</a>
+            </div>
+        </div>
+
+        <!-- Gallery -->
+        <div class="gallery-section">
+            <h2>📸 Galeri Foto Otomotif</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="c:\Users\USER\Pictures\nfs\1222680_5.jpg" alt="Mobil Sport">
+                </div>
+                <div class="gallery-item">
+                    <img src="galeri2.jpg" alt="Motor Custom">
+                </div>
+                <div class="gallery-item">
+                    <img src="galeri3.jpg" alt="Modifikasi Ekstrem">
+                </div>
+                <div class="gallery-item">
+                    <img src="galeri4.jpg" alt="Classic Car">
+                </div>
+                <div class="gallery-item">
+                    <img src="galeri5.jpg" alt="Racing Event">
+                </div>
+                <div class="gallery-item">
+                    <img src="galeri6.jpg" alt="Car Show">
+                </div>
+            </div>
+        </div>
+
+        <!-- Comment Section -->
+        <div class="comment-section">
+            <h2>💬 Tinggalkan Komentar Anda</h2>
+            <form action="komentar.html" method="post">
+                <label for="nama">Nama:</label>
+                <input type="text" id="nama" name="nama" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="komentar">Komentar:</label>
+                <textarea id="komentar" name="komentar" rows="6" required></textarea>
+
+                <input type="submit" value="Kirim Komentar">
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 AutoSpeed - Portal Berita Otomotif Indonesia. All Rights Reserved.</p>
+        <p>Kontak: info@autospeed.id | Redaksi: redaksi@autospeed.id</p>
+    </footer>
+</body>
+</html>
